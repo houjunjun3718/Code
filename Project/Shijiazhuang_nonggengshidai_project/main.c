@@ -46,6 +46,7 @@ int main()
             comply_Data_Delivery_Cloud(DATA_IP,data);
             printf("%s\n",data);
             loadWatchdog(SpectrumRetriever);
+            printf("数据发送完成\n");
         }else{
             printf("Read_Retriever:error:\n");
         }
