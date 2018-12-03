@@ -10,8 +10,8 @@
 #include"Data_Delivery_Cloud.h"
 
 
-#define IP "http://39.105.67.7/LWI-getVersion.php"
-#define DATA_IP "http://39.105.67.7/LWI-pushData.php"
+#define IP "http://testcloud.leadwin-agritech.com/LWI-getVersion.php"
+#define DATA_IP "http://testcloud.leadwin-agritech.com/LWI-pushData.php"
 
 int main(void)
 {

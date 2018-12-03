@@ -8,8 +8,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<curl/curl.h>
 
-#include"curl/curl.h"
+//#include"curl/curl.h"
 #include"Data_Delivery_Cloud.h"
 
 /*************************************

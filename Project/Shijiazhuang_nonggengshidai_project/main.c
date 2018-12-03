@@ -13,8 +13,8 @@
 #include"Retriever_collection.h"
 #include"Watchdog.h"
 
-#define IP "http://cloud.leadwin-agritech.com/LWI-getVersion.php"
-#define DATA_IP "http://cloud.leadwin-agritech.com/LWI-pushData.php" 
+#define IP "http://39.105.67.7/LWI-getVersion.php"
+#define DATA_IP "http://39.105.67.7/LWI-pushData.php" 
 
 
 int main()
