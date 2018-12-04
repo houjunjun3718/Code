@@ -11,11 +11,13 @@
 #include"LEDDisplayNetworkPortModule.h"
 
  
-char data_A[300];
-char data_B[300];
+char data_A[300];    //资源圃东区
+char data_B[300];    //资源圃西区
 
 int sockfd;
 struct sockaddr_in server_addr;
+
+static pthread_mutex_t mutex;    //互斥锁
 
 /*************************************************************************
  *LED屏的数据刷新线程
@@ -25,7 +27,20 @@ struct sockaddr_in server_addr;
  * **********************************************************************/
 void *RefreshLED(void)   
 {
-    
+    while(1)
+    {
+        pthread_mutex_lock(mutex);    //加锁
+        sendto(sockfd,&data_A,strlen(data_A),0,(struct sockaddr*)&server_addr,sizeof(server_addr));  //发送东区的数据
+        pthread_mutex_unlock(mutex);  //解锁
+        printf("%s\n",data_A);
+        sleep(15);
+
+        pthread_mutex_lock(mutex);    //加锁
+        sendto(sockfd,&data_B,strlen(data_B),0,(struct sockaddr*)&server_addr,sizeof(server_addr));  //发送西区的数据
+        pthread_mutex_unlock(mutex);  //解锁
+        printf("%s\n",data_B);
+        sleep(15);
+    }
 }
 
 
@@ -46,6 +61,7 @@ int InitLEDModule(char *ip,int port)
     server_addr.sin_port = htons(port);
     server_addr.sin_addr.s_addr = inet_addr(ip);
     
+    /**********东区*************/
     memcpy(data_A+0,"!#001%1",7);
     /**********第一行***********/
     data_A[7] = 0xD7;
@@ -99,8 +115,81 @@ int InitLEDModule(char *ip,int port)
     data_A[112] = 0xB1;
     data_A[113] = 0xBC;
     data_A[114] = 0xE4;
-    memcpy(data_A+115," -----------$$",14);
+    memcpy(data_A+115," -----------$$",14);  //时间不显示年,只显示月,日,时间
+
+
+    /**********西区*************/
+    memcpy(data_B+0,"!#001%1",7);
+    /**********第一行***********/
+    data_B[7] = 0xD7;
+    data_B[8] = 0xCA;
+    data_B[9] = 0xD4;
+    data_B[10] = 0xB4;
+    data_B[11] = 0xC6;
+    data_B[12] = 0xD4;
+    data_B[13] = 0xCE;
+    data_B[14] = 0xF7;
+    data_B[15] = ' ';
+    data_B[16] = ' ';
+    data_B[17] = 0xC7;
+    data_B[18] = 0xB3;
+    data_B[19] = 0xCE;
+    data_B[20] = 0xBB;
+    data_B[21] = ' ';
+    data_B[22] = ' ';
+    data_B[23] = 0xC9;
+    data_B[24] = 0xEE;
+    data_B[25] = 0xCE;
+    data_B[26] = 0xBB;
+    /**********第二行***********/
+    memcpy(data_B+27,"EC(mS/cm) ----  ----",20);
+    /**********第三行***********/
+    data_B[47] = 0xCE;
+    data_B[48] = 0xC2;
+    data_B[49] = 0xB6;
+    data_B[50] = 0xC8;
+    data_B[51] = '(';
+    data_B[52] = 0xA1;
+    data_B[53] = 0xE6;
+    data_B[54] = ')';
+    data_B[55] = ' ';
+    data_B[56] = ' ';
+    memcpy(data_B+57,"----  ----",10);
+    /**********第四行***********/
+    data_B[67] = 0xCA;
+    data_B[68] = 0xAA;
+    data_B[69] = 0xB6;
+    data_B[70] = 0xC8;
+    memcpy(data_B+71,"(%)   ----  ----",16);
+    /**********第五行***********/
+    memcpy(data_B+87,"CEC(mol/kg)     8.55",20);
+    /**********第六行***********/
+    data_B[107] = 0xB2;
+    data_B[108] = 0xC9;
+    data_B[109] = 0xBC;
+    data_B[110] = 0xAF;
+    data_B[111] = 0xCA;
+    data_B[112] = 0xB1;
+    data_B[113] = 0xBC;
+    data_B[114] = 0xE4;
+    memcpy(data_B+115," -----------$$",14);  //时间不显示年,只显示月,日,时间
     
+
+    /**********创建自旋锁***********/
+    if(pthread_mutex_init(&mutex,NULL) < 0) //初始化互斥锁
+    {
+        printf("互斥锁创建失败\n");
+        return -1;
+    }
+    printf("初始化锁成功\n");
+
+    /**********创建数据发送线程*****/
+    pthread_t LEDPthread_fd;
+    pthread_create(&LEDPthread_fd,NULL,(void *)RefreshLED,NULL);
+    pthread_detach(LEDPthread_fd);
+    printf("LED屏线程创建成功\n");
+    
+    return 0;
 }
 
 /*************************************************************************
@@ -113,6 +202,33 @@ int InitLEDModule(char *ip,int port)
  * **********************************************************************/
 int SendLEDData(char **data,int datalen)
 {
+    if(strcmp(data[0],"20180063") == 0)
+    {
+        pthread_mutex_lock(mutex);   //加锁
+        //西区
+        memcpy(data_B+116,data[1],strlen(data[1]));  //拷贝时间
+        memcpy(data_B+57,data[2],strlen(data[2]));   //拷贝浅位温度
+        memcpy(data_B+63,data[5],strlen(data[5]));   //拷贝深位温度
+        memcpy(data_B+77,data[3],strlen(data[3]));   //拷贝浅位湿度
+        memcpy(data_B+83,data[6],strlen(data[6]));   //拷贝深位湿度
+        memcpy(data_B+47,data[4],strlen(data[4]));   //拷贝浅位EC
+        memcpy(data_B+53,data[7],strlen(data[7]));   //拷贝深位EC
 
+        pthread_mutex_unlock(mutex);   //解锁
+    }else
+    {
+        pthread_mutex_lock(mutex);   //加锁
+        //东区
+        memcpy(data_A+116,data[1],strlen(data[1]));  //拷贝时间
+        memcpy(data_A+57,data[2],strlen(data[2]));   //拷贝浅位温度
+        memcpy(data_A+63,data[5],strlen(data[5]));   //拷贝深位温度
+        memcpy(data_A+77,data[3],strlen(data[3]));   //拷贝浅位湿度
+        memcpy(data_A+83,data[6],strlen(data[6]));   //拷贝深位湿度
+        memcpy(data_A+47,data[4],strlen(data[4]));   //拷贝浅位EC
+        memcpy(data_A+53,data[7],strlen(data[7]));   //拷贝深位EC
+
+        pthread_mutex_unlock(mutex);   //解锁
+    }
+    return 0;
 }
 

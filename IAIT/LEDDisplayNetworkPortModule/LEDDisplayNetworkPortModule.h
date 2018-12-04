@@ -8,6 +8,17 @@
 #ifndef _LEDDISPLAYNETWORKPORTMODULE_H
 #define _LEDDISPLAYNETWORKPORTMODULE_H
 
+/********************************************
+data[0] : pup编号 xxxxxxxx
+data[1] : 数据采集时间,去掉年 xx-xx xx:xx
+data[2] : 温度  xx.x
+data[3] : 湿度  xx.x
+data[4] : EC    x.xx
+data[5] : 温度  xx.x
+data[6] : 湿度  xx.x
+data[7] : EC    x.xx
+********************************************/
+
 /*************************************************************************
  *初始化LED屏的通信
  *功能:创建一个UDP的套接字,创建一个线程向LED屏发送数据
