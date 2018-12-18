@@ -212,12 +212,25 @@ int SendLEDData(char **data,int datalen)
         pthread_mutex_lock(&mutex);   //加锁
         //西区
         memcpy(data_B+116,data[1],strlen(data[1]));  //拷贝时间
-        memcpy(data_B+57,data[2],strlen(data[2]));   //拷贝浅位温度
-        memcpy(data_B+63,data[5],strlen(data[5]));   //拷贝深位温度
-        memcpy(data_B+77,data[3],strlen(data[3]));   //拷贝浅位湿度
-        memcpy(data_B+83,data[6],strlen(data[6]));   //拷贝深位湿度
-        memcpy(data_B+37,data[4],strlen(data[4]));   //拷贝浅位EC
-        memcpy(data_B+43,data[7],strlen(data[7]));   //拷贝深位EC
+
+        memcpy(data_B+57,data[2],4);   //拷贝浅位温度
+        if(strlen(data[2]) == 3)
+            data_B[60] = '0';
+        memcpy(data_B+63,data[5],4);   //拷贝深位温度
+        if(strlen(data[5]) == 3)
+            data_B[66] = '0';
+        memcpy(data_B+77,data[3],4);   //拷贝浅位湿度
+        if(strlen(data[3]) == 3)
+            data_B[80] = '0';
+        memcpy(data_B+83,data[6],4);   //拷贝深位湿度
+        if(strlen(data[6]) == 3)
+            data_B[86] = '0';
+        memcpy(data_B+37,data[4],4);   //拷贝浅位EC
+        if(strlen(data[4]) == 3)
+            data_B[40] = '0';
+        memcpy(data_B+43,data[7],4);   //拷贝深位EC
+        if(strlen(data[7]) == 3)
+            data_B[46] = '0';
 
         pthread_mutex_unlock(&mutex);   //解锁
     }else
@@ -225,13 +238,24 @@ int SendLEDData(char **data,int datalen)
         pthread_mutex_lock(&mutex);   //加锁
         //东区
         memcpy(data_A+116,data[1],strlen(data[1]));  //拷贝时间
-        memcpy(data_A+57,data[2],strlen(data[2]));   //拷贝浅位温度
-        memcpy(data_A+63,data[5],strlen(data[5]));   //拷贝深位温度
-        memcpy(data_A+77,data[3],strlen(data[3]));   //拷贝浅位湿度
-        memcpy(data_A+83,data[6],strlen(data[6]));   //拷贝深位湿度
-        memcpy(data_A+37,data[4],strlen(data[4]));   //拷贝浅位EC
-        memcpy(data_A+43,data[7],strlen(data[7]));   //拷贝深位EC
-
+        memcpy(data_A+57,data[2],4);   //拷贝浅位温度 
+        if(strlen(data[2]) == 3)
+            data_A[60] = '0';
+        memcpy(data_A+63,data[5],4);   //拷贝深位温度
+        if(strlen(data[5]) == 3)
+            data_A[66] = '0';
+        memcpy(data_A+77,data[3],4);   //拷贝浅位湿度
+        if(strlen(data[3]) == 3)
+            data_A[80] = '0';
+        memcpy(data_A+83,data[6],4);   //拷贝深位湿度
+        if(strlen(data[6]) == 3)
+            data_A[86] = '0';
+        memcpy(data_A+37,data[4],4);   //拷贝浅位EC
+        if(strlen(data[4]) == 3)
+            data_A[40] = '0';
+        memcpy(data_A+43,data[7],4);   //拷贝深位EC
+        if(strlen(data[7]) == 3)
+            data_A[46] = '0';
         pthread_mutex_unlock(&mutex);   //解锁
     }
     return 0;
