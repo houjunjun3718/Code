@@ -34,11 +34,11 @@ int TimeoutHandler(void)
     char tmp[64];
     strftime(tmp,sizeof(tmp),"%Y-%m-%d %X",localtime(&t));
     char postthis[200];
-    sprintf(postthis,"RE;%s;10180012;error;The retriever device is incorrect and has not received data for a long time.",tmp);
+    sprintf(postthis,"RE;%s;10180083;error;The retriever device is incorrect and has not received data for a long time.",tmp);
 
     
     //调用数据发送函数
-    comply_Data_Delivery_Cloud("http://39.105.67.7/LWI-pushData.php",postthis);
+    comply_Data_Delivery_Cloud("http://cloud.leadwin-agritech.com/LWI-pushData.php",postthis);
     printf("%s",postthis);    
     return 0;
 }

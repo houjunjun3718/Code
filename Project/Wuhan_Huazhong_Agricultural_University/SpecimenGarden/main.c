@@ -15,7 +15,7 @@
 #include"Retriever_collection.h"
 #include"PLC_communication.h"
 
-#define PLC "/dev/ttyO5"   //PLC的串口地址
+#define PLC "/dev/ttyO5" 
 #define RETRIEVER "/dev/ttyO1"   //retriever的串口地址
 
 #define IP "http://39.105.67.7/LWI-getVersion.php"
