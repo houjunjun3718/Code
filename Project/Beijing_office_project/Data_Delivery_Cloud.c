@@ -100,7 +100,7 @@ int comply_Data_Delivery_Cloud(char *cloud,char *data)
     if(NULL == curl)
     {
         //错误处理函数
-        
+        printf("数据初始化发送失败\n");
         return -1;
     }
     char *pBuf = NULL;
@@ -114,6 +114,7 @@ int comply_Data_Delivery_Cloud(char *cloud,char *data)
     if(CURLE_OK != curl_easy_perform(curl))
     {
         //错误处理函数 
+        printf("数据发送失败\n");
 
         return -1;
     }
