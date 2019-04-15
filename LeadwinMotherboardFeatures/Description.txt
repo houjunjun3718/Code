@@ -1,0 +1,5 @@
+DATA-LeadWinCloud:该模块存放数据直接上传领旋云平台的模块.
+DATA-Retriever:该模块存放从Retriever数据和向Retriever发送命令的模块.
+IOT-Communication:该模块存放数据上传阿里物联网平台的模块.
+Shared:该模块用于存放公共函数.
+

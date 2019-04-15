@@ -218,21 +218,22 @@ int main(void)
         sprintf(mommand2,"INSERT INTO DATA_2475(data) VALUES('%s');",Sdata);
         printf("%s\n",mommand2);
         pthread_mutex_lock(&lock);  //加锁
+        
         rc = sqlite3_exec(db,mommand2,NULL,0,&zErrMsg2);
         if(rc != SQLITE_OK)
         {
+            
             printf("插入数据失败,%s\n",zErrMsg2);
             
             sqlite3_free(zErrMsg2);
 
             pthread_mutex_unlock(&lock);
-            
-            return -1;
+               
+        
         }else{
             printf("数据插入成功!\n");
+            pthread_mutex_unlock(&lock);  //解锁
         }
-        pthread_mutex_unlock(&lock);  //解锁
-
 
         printf("-------------------------\n");
         sleep(1800);

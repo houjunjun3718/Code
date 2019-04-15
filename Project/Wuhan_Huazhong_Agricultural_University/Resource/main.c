@@ -217,6 +217,7 @@ int main(void)
         
         sprintf(mommand2,"INSERT INTO DATA(data) VALUES('%s');",data);
         printf("%s\n",mommand2);
+
         pthread_mutex_lock(&lock);  //加锁
         rc = sqlite3_exec(db,mommand2,NULL,0,&zErrMsg2);
         if(rc != SQLITE_OK)
@@ -226,7 +227,7 @@ int main(void)
 
             pthread_mutex_unlock(&lock);
             
-            return -1;
+            
         }else{
             printf("数据插入成功!\n");
         }
