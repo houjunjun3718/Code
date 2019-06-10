@@ -187,7 +187,9 @@ int InitSerialPort(char *Tty,int Baud,int DataBit,int CheckDigit,int StopBit)
     options.c_oflag &= ~OPOST;  //设置串口的输出配置
 
     options.c_lflag &= ~(ECHO | ECHONL | ICANON | ISIG | IEXTEN);  //设置串口的本地配置
-    tcflush(SerialPortFd,TCIOFLUSH);  //刷新读写缓存区
+//    tcflush(SerialPortFd,TCIOFLUSH);  //刷新读写缓存区
+    tcflush(SerialPortFd,TCIFLUSH);
+    tcflush(SerialPortFd,TCOFLUSH);
 
     tcsetattr(SerialPortFd,TCSANOW,&options);  //将配置加载到串口
 
@@ -195,3 +197,32 @@ int InitSerialPort(char *Tty,int Baud,int DataBit,int CheckDigit,int StopBit)
 }
 
 
+/*
+ *CRC-16校验函数
+ *snd:待校验的字节数组名
+ *num:待校验的字节总数
+ * */
+unsigned int calc_crc16(unsigned char *snd,unsigned int num)
+{
+    unsigned char i,j;
+    unsigned int c,crc = 0xffff;
+    for(i = 0; i < num;i++)
+    {
+        c = snd[i] & 0x00ff;
+        crc ^= c;
+        for(j = 0;j < 8;j++)
+        {
+            if(crc & 0x0001)
+            {
+                crc >>= 1;
+                crc ^= 0xA001;
+            }
+            else
+            {
+                crc >>= 1;    
+            }
+        }
+        
+    }
+    return(crc);
+}

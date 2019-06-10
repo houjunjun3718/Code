@@ -20,5 +20,12 @@
 int InitSerialPort(char *Tty,int Baud,int DataBit,int CheckDigit,int StopBit);
 
 
+/*
+ *CRC-16校验函数
+ *snd:待校验的字节数组名
+ *num:待校验的字节总数
+ * */
+unsigned int calc_crc16(unsigned char *snd,unsigned int num);
+
 
 #endif

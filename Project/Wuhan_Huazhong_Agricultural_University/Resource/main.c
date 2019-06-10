@@ -129,12 +129,14 @@ int main(void)
         return -1;
     }
 
+/*
     int sun;
     if(InitLEDModule("192.168.0.236",5005) < 0)
     {
         printf("InitLEDModule:error!!!!!!!\n");
         return -1;
     }
+*/
 
     retriever_fd = init_Retriever(RETRIEVER,9600,8,0,1);   //初始化retriever的串口
     if(retriever_fd == NULL)
@@ -194,6 +196,7 @@ int main(void)
     
     while(1)
     {
+        /*
         memset(buff0,0,20);
         memset(buff1,0,20);
         memset(buff2,0,20);
@@ -204,7 +207,7 @@ int main(void)
         memset(buff7,0,20);
         memset(buff8,0,20);
         memset(buff9,0,20);
-
+        */
         //读取数据
         if(0 > Read_Retriever(retriever_fd,data,200))
         {
@@ -235,6 +238,7 @@ int main(void)
         //喂狗
         loadWatchdog(SpectrumRetriever);
         //提取数据
+        /*
         printf("开始拆分数据!!!\n");
         if(0 > Reteiever_Processing(data,&pup_data))
         {
@@ -272,7 +276,7 @@ int main(void)
         sprintf(buff5,"%2.1f",atof(ren));
         printf("buff5 = %s\n",buff5);
         pup[5] = buff5;
-       // printf("pup[5] = %s\n",pup[5]);
+        // printf("pup[5] = %s\n",pup[5]);
         //处理湿度
         sprintf(buff3,"%2.1f",atof(pup_data.pup_A1));
         printf("buff3 = %s\n",buff3);
@@ -300,6 +304,7 @@ int main(void)
             printf("SendLEDData:error!!!\n");
             continue;
         }
+        */
     printf("数据发送完成!!!\n");
     }
 }

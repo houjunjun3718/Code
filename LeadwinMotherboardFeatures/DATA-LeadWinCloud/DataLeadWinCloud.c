@@ -8,7 +8,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#include<curl/curl.h>
+#include"curl/curl.h"
 
 #include"DataLeadWinCloud.h"
 
@@ -43,6 +43,7 @@ int InitDataLeadWinCloud(char *cloud)
         printf("初始化curl_global_init失败!!!\n");
         return -1;
     }
+    printf("初始化libcurl库成功!!!\n");
 
     //初始化HTTP,创建HTTP传输的文件流
     CURL *easy_handle = curl_easy_init();
@@ -51,6 +52,7 @@ int InitDataLeadWinCloud(char *cloud)
         printf("初始化HTTP传输失败!!!\n");
         return -1;
     }
+    printf("初始化HTTP成功!!!\n");
 
     //创建一个用于接收数据的指针
     char *pBuf = NULL;
@@ -65,6 +67,8 @@ int InitDataLeadWinCloud(char *cloud)
         printf("HTTP请求失败!!!\n");
         return 1;
     }
+    printf("HTTP请求成功!!!\n");
+
 
     //释放资源
     free(pBuf);
@@ -72,7 +76,7 @@ int InitDataLeadWinCloud(char *cloud)
 
     //断开HTTP连接
     curl_easy_cleanup(easy_handle);
-
+    printf("云平台连接建立成功!!!\n");
     return 0;
 }
 
@@ -110,6 +114,7 @@ int ComplyDataLeadWinCloud(char *cloud,char *data)
         printf("数据发送失败!!!\n");
         return 1;
     }
+    printf("接收的的返回信息:%s\n",pBuf);
 
     free(pBuf);
     pBuf = NULL;

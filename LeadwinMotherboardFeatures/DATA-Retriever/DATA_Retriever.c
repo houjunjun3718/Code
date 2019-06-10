@@ -34,6 +34,7 @@ FILE *InitRetriever(void)
         perror("错误原因:");
         return NULL;
     }
+    printf("串口文件流打开成功!!!\n");
     return RetrieverFd;   //返回串口的流文件符.
 }
 
@@ -65,13 +66,20 @@ int ReadRetriever(FILE *RetrieverFd,char *Data,int DataLen)
 {
     int len;  //实际读到的字节数
     memset(Data,0,DataLen);
+    rewind(RetrieverFd);    //
+    printf("RetrieverFd的读写位置:%ld\n",ftell(RetrieverFd));
+    
     if(fgets(Data,DataLen,RetrieverFd) == NULL)
     {
         printf("数据读取失败!!!\n");
         perror("失败原因:");
         return -1;
     }
+    
+//    fread(Data,sizeof(char),1024,RetrieverFd);
+
     len = strlen(Data);
+    printf("RetrieverFd的读写位置:%ld\n",ftell(RetrieverFd));
     return len;
 }
 

@@ -159,7 +159,7 @@ int main(void)
 
     char * zErrMsg3 = NULL;
     int rc;
-    rc = sqlite3_open("data.db",&db);
+    rc = sqlite3_open("/home/root/data.db",&db);
     if(rc != 0)
     {
         printf("数据库打开失败%s\n",sqlite3_errmsg(db));
