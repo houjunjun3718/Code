@@ -198,22 +198,22 @@ int Spectrum_Data_Process(char *data,PUP *element)
 
     int add = 0;
     /*Retriever电量*/
-    sprintf(element->P0,"%s;900;%s;%ld",ret[2],ret[3],ti);
+    sprintf(element->P0,"\"0\":\"%s;stat;900;%s;%ld\"",ret[2],ret[3],ti);
     add++;
 
     /*PUP的信号强度*/
-    sprintf(element->P1,"%s;901;%s;%ld",ret[4],ret[5],ti);
+    sprintf(element->P1,"\"1\":\"%s;stat;901;%s;%ld\"",ret[4],ret[5],ti);
     add++;
 
     /*PUP的电量*/
-    sprintf(element->P2,"%s;900;%s;%ld",ret[4],ret[6],ti);
+    sprintf(element->P2,"\"2\":\"%s;stat;900;%s;%ld\"",ret[4],ret[6],ti);
     add++;
     int type = 0;
 
     if('A' == ret[9][0] || 'B' == ret[9][0] || 'B' == ret[9][0] || 'D' == ret[9][0])
     {
         type = DataType_Conversion(ret[11]);
-        sprintf(element->P3,"%s%s;%d;%s;%ld",ret[4],ret[9],type,ret[13],ti);
+        sprintf(element->P3,"\"3\":\"%s%s;data;%d;%s;%ld\"",ret[4],ret[9],type,ret[13],ti);
         add++;
     }else{
         WriteLog("数据处理完成!");
@@ -224,7 +224,7 @@ int Spectrum_Data_Process(char *data,PUP *element)
     if('A' == ret[14][0] || 'B' == ret[14][0] || 'B' == ret[14][0] || 'D' == ret[14][0])
     {
         type = DataType_Conversion(ret[16]);
-        sprintf(element->P4,"%s%s;%d;%s;%ld",ret[4],ret[14],type,ret[18],ti);
+        sprintf(element->P4,"\"4\":\"%s%s;data;%d;%s;%ld\"",ret[4],ret[14],type,ret[18],ti);
         add++;
     }else{
         WriteLog("数据处理完成!");
@@ -235,7 +235,7 @@ int Spectrum_Data_Process(char *data,PUP *element)
     if('A' == ret[19][0] || 'B' == ret[19][0] || 'B' == ret[19][0] || 'D' == ret[19][0])
     {
         type = DataType_Conversion(ret[21]);
-        sprintf(element->P5,"%s%s;%d;%s;%ld",ret[4],ret[19],type,ret[23],ti);
+        sprintf(element->P5,"\"5\":\"%s%s;data;%d;%s;%ld\"",ret[4],ret[19],type,ret[23],ti);
         add++;
     }else{
         WriteLog("数据处理完成!");
@@ -246,7 +246,7 @@ int Spectrum_Data_Process(char *data,PUP *element)
     if('A' == ret[24][0] || 'B' == ret[24][0] || 'B' == ret[24][0] || 'D' == ret[24][0])
     {
         type = DataType_Conversion(ret[26]);
-        sprintf(element->P6,"%s%s;%d;%s;%ld",ret[4],ret[24],type,ret[28],ti);
+        sprintf(element->P6,"\"6\":\"%s%s;data;%d;%s;%ld\"",ret[4],ret[24],type,ret[28],ti);
         add++;
     }else{
         WriteLog("数据处理完成!");
@@ -257,7 +257,7 @@ int Spectrum_Data_Process(char *data,PUP *element)
     if('A' == ret[29][0] || 'B' == ret[29][0] || 'B' == ret[29][0] || 'D' == ret[29][0])
     {
         type = DataType_Conversion(ret[31]);
-        sprintf(element->P7,"%s%s;%d;%s;%ld",ret[4],ret[29],type,ret[33],ti);
+        sprintf(element->P7,"\"7\":\"%s%s;data;%d;%s;%ld\"",ret[4],ret[29],type,ret[33],ti);
         add++;
     }else{
         WriteLog("数据处理完成!");
@@ -268,7 +268,7 @@ int Spectrum_Data_Process(char *data,PUP *element)
     if('A' == ret[34][0] || 'B' == ret[34][0] || 'B' == ret[34][0] || 'D' == ret[34][0])
     {
         type = DataType_Conversion(ret[36]);
-        sprintf(element->P8,"%s%s;%d;%s;%ld",ret[4],ret[34],type,ret[38],ti);
+        sprintf(element->P8,"\"8\":\"%s%s;data;%d;%s;%ld\"",ret[4],ret[34],type,ret[38],ti);
         add++;
     }else{
         WriteLog("数据处理完成!");
@@ -279,7 +279,7 @@ int Spectrum_Data_Process(char *data,PUP *element)
     if('A' == ret[39][0] || 'B' == ret[39][0] || 'B' == ret[39][0] || 'D' == ret[9][0])
     {
         type = DataType_Conversion(ret[41]);
-        sprintf(element->P9,"%s%s;%d;%s;%ld",ret[4],ret[39],type,ret[43],ti);
+        sprintf(element->P9,"\"9\":\"%s%s;data;%d;%s;%ld\"",ret[4],ret[39],type,ret[43],ti);
         add++;
     }else{
         WriteLog("数据处理完成!");
@@ -289,7 +289,7 @@ int Spectrum_Data_Process(char *data,PUP *element)
     if('A' == ret[44][0] || 'B' == ret[44][0] || 'B' == ret[44][0] || 'D' == ret[44][0])
     {
         type = DataType_Conversion(ret[46]);
-        sprintf(element->PA,"%s%s;%d;%s;%ld",ret[4],ret[44],type,ret[48],ti); 
+        sprintf(element->PA,"\"A\":\"%s%s;data;%d;%s;%ld\"",ret[4],ret[44],type,ret[48],ti); 
         add++;
     }else{
         WriteLog("数据处理完成!");
@@ -299,7 +299,7 @@ int Spectrum_Data_Process(char *data,PUP *element)
     if('A' == ret[49][0] || 'B' == ret[49][0] || 'B' == ret[49][0] || 'D' == ret[49][0])
     {
         type = DataType_Conversion(ret[51]);
-        sprintf(element->PB,"%s%s;%d;%s;%ld",ret[4],ret[49],type,ret[53],ti);   
+        sprintf(element->PB,"\"B\":\"%s%s;data;%d;%s;%ld\"",ret[4],ret[49],type,ret[53],ti);   
         add++;
     }else{
         WriteLog("数据处理完成!");
@@ -309,7 +309,7 @@ int Spectrum_Data_Process(char *data,PUP *element)
     if('A' == ret[54][0] || 'B' == ret[54][0] || 'B' == ret[54][0] || 'D' == ret[54][0])
     {
         type = DataType_Conversion(ret[56]);
-        sprintf(element->PC,"%s%s;%d;%s;%ld",ret[4],ret[54],type,ret[58],ti);  
+        sprintf(element->PC,"\"C\":\"%s%s;data;%d;%s;%ld\"",ret[4],ret[54],type,ret[58],ti);  
         add++;
     }else{
         WriteLog("数据处理完成!");
@@ -319,7 +319,7 @@ int Spectrum_Data_Process(char *data,PUP *element)
     if('A' == ret[59][0] || 'B' == ret[59][0] || 'B' == ret[59][0] || 'D' == ret[59][0])
     {
         type = DataType_Conversion(ret[61]);
-        sprintf(element->PD,"%s%s;%d;%s;%ld",ret[4],ret[59],type,ret[63],ti);       
+        sprintf(element->PD,"\"D\":\"%s%s;data;%d;%s;%ld\"",ret[4],ret[59],type,ret[63],ti);       
         add++;
     }else{
         WriteLog("数据处理完成!");
@@ -329,7 +329,7 @@ int Spectrum_Data_Process(char *data,PUP *element)
     if('A' == ret[64][0] || 'B' == ret[64][0] || 'B' == ret[64][0] || 'D' == ret[64][0])
     {
         type = DataType_Conversion(ret[66]);
-        sprintf(element->PE,"%s%s;%d;%s;%ld",ret[4],ret[64],type,ret[68],ti);   
+        sprintf(element->PE,"\"E\":\"%s%s;data;%d;%s;%ld\"",ret[4],ret[64],type,ret[68],ti);   
         add++;
     }else{
         WriteLog("数据处理完成!");
@@ -339,7 +339,7 @@ int Spectrum_Data_Process(char *data,PUP *element)
     if('A' == ret[69][0] || 'B' == ret[69][0] || 'B' == ret[69][0] || 'D' == ret[69][0])
     {
         type = DataType_Conversion(ret[71]);
-        sprintf(element->PF,"%s%s;%d;%s;%ld",ret[4],ret[69],type,ret[73],ti);        
+        sprintf(element->PF,"\"F\":\"%s%s;data;%d;%s;%ld\"",ret[4],ret[69],type,ret[73],ti);        
         add++;
     }else{
         WriteLog("数据处理完成!");

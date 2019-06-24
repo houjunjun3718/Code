@@ -8,14 +8,17 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+//#include<curl/curl.h>
 
 #include"curl/curl.h"
 #include"Data_Delivery_Cloud.h"
 
 /*************************************
- *
- * 
- *
+ *回调函数,当发送数据后会读取服务器返回的信息,该函数会产生阻塞.
+ *buffer:读到的数据
+ *size*nmemb:读到的字节数
+ *user_p:回填的指针,
+ *size_t:返回肚带的字节数
  * **********************************/
 size_t process_data_buffer(void *buffer,size_t size,size_t nmemb,char **user_p)
 {
@@ -100,7 +103,7 @@ int comply_Data_Delivery_Cloud(char *cloud,char *data)
     if(NULL == curl)
     {
         //错误处理函数
-        printf("数据初始化发送失败\n");
+        
         return -1;
     }
     char *pBuf = NULL;
@@ -114,7 +117,6 @@ int comply_Data_Delivery_Cloud(char *cloud,char *data)
     if(CURLE_OK != curl_easy_perform(curl))
     {
         //错误处理函数 
-        printf("数据发送失败\n");
 
         return -1;
     }

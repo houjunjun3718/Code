@@ -19,14 +19,14 @@
  *返回值:成功返回串口的文件描述符
          失败返回-1
  * ******************************************/
-int init_Retriever(char *tty,int baud,int datalen,int check,int stop);
+FILE *init_Retriever(char *tty,int baud,int datalen,int check,int stop);
 
 /*********************************************
  *注销Retriever的数据采集
  *参数:串口的文件描述符
  *返回值:无
  * ******************************************/
-void Clock_Retriever(int fd);
+void Clock_Retriever(FILE *Retriever_fd);
 
 /*********************************************
  *读取传感器的数据
@@ -36,7 +36,16 @@ void Clock_Retriever(int fd);
  *返回值:成功返回读到的字节数
          失败返回-1
  * ******************************************/
-int Read_Retriever(int fd,char *data,int datalen);
+int Read_Retriever(FILE *Retriever_fd,char *data,int datalen);
 
+
+/*********************************************
+ * 向传感器写命令
+ * 参数:Retriever_fd文件流
+ *      data存储数据的缓冲区
+ *      datalen数据的大小
+ * 返回值:
+ * ******************************************/
+int write_Retriever(FILE *Retriever_fd,char *data,int datalen);
 
 #endif

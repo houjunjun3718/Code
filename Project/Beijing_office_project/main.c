@@ -213,7 +213,7 @@ int main(void)
         }
         time(&t);
         memset(Send,0,1024);
-        sprintf(Send,"{\"querID\":\"%s\",\"time\":\"%ld\",\"Number_of_data\":\"%d\"}",QUERID,t,rc);
+        sprintf(Send,"{\"querID\":\"%s\",\"time\":\"%ld\",\"Number_of_data\":\"%d\"",QUERID,t,rc);
         //对数据进行整合
         if(rc > 0)
         {
@@ -328,7 +328,9 @@ int main(void)
             goto sen;
         }
 sen:
+        sprintf(Send,"%s}",Send);
         rc = 0;
+
         rc = Leadwin_IOT_Update(pclient,Send);
         if(rc != 0)
         {
@@ -336,7 +338,7 @@ sen:
             EC20_Restart();
             goto sen;
         }
-
+        printf("%s\n",Send);
         memset(Retriever_Data,0,1024);
         //发送数据
             //发送数据就重启4G模块

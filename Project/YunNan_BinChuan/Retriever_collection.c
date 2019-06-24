@@ -12,7 +12,7 @@
 #include<termios.h>
 #include<unistd.h>
 #include<string.h>
-#include<errno.h>
+
 
 #include"Retriever_collection.h"
 
@@ -28,16 +28,17 @@
  *返回值:成功返回串口的文件描述符
          失败返回-1
  * ******************************************/
-int init_Retriever(char *tty,int baud,int datalen,int check,int stop)
+FILE *init_Retriever(char *tty,int baud,int datalen,int check,int stop)
 {
     int fd;
+//    FILE *retriever_fd;
     struct termios options;
     fd = open(tty,O_RDWR);
     if(fd < 0)
     {
         //调用错误处理函数
 
-        return-1;
+        return NULL;
     }
     tcgetattr(fd,&options);
 
@@ -61,7 +62,7 @@ int init_Retriever(char *tty,int baud,int datalen,int check,int stop)
         break;
         default:
         printf("Retriever:datalen error!\n");
-        return -2;    
+        return NULL;    
     }
     switch(check)                        
     {
@@ -81,7 +82,7 @@ int init_Retriever(char *tty,int baud,int datalen,int check,int stop)
         break;
         default:
         printf("Retriever:check error!\n");
-        return -3;
+        return NULL;
     }
     switch (stop)
     {
@@ -93,7 +94,7 @@ int init_Retriever(char *tty,int baud,int datalen,int check,int stop)
         break;
         default:
         printf("Retriever:stop error\n");
-        return -4;     
+        return NULL;     
     }
     switch(baud)
     {
@@ -105,7 +106,7 @@ int init_Retriever(char *tty,int baud,int datalen,int check,int stop)
         break;
         default:
         printf("Retriever:baudud error!\n");
-        return -5;
+        return NULL;
     }
     options.c_iflag &= ~(IGNBRK | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL | IXON);
     options.c_oflag &= ~OPOST;
@@ -113,7 +114,9 @@ int init_Retriever(char *tty,int baud,int datalen,int check,int stop)
     tcflush(fd,TCIFLUSH);
     tcflush(fd,TCOFLUSH);
     tcsetattr(fd,TCSANOW,&options);
-    return fd;
+    FILE *Retriever_fd;
+    Retriever_fd = fdopen(fd,"r+");
+    return Retriever_fd;
 }
 
 /*********************************************
@@ -121,11 +124,12 @@ int init_Retriever(char *tty,int baud,int datalen,int check,int stop)
  *参数:串口的文件描述符
  *返回值:无
  * ******************************************/
-void Clock_Retriever(int fd)
+void Clock_Retriever(FILE *fd)
 {
-    if(fd >= 0)
+    if(fd != NULL)
     {
-        close(fd);
+        fclose(fd);
+        printf("串口以关闭\n");
     }
 
 }
@@ -139,24 +143,17 @@ void Clock_Retriever(int fd)
          没有读到数据返回0
          失败返回-1
  * ******************************************/
-int Read_Retriever(int fd,char *data,int datalen)
+int Read_Retriever(FILE *Retriever_fd,char *data,int datalen)
 {
-    FILE *Retriever_fd;
-    Retriever_fd = fdopen(fd,"r+");
-    if(Retriever_fd == NULL)
-    {
-        perror("fdopen:");
-    }
-
+//    FILE *Retriever_fd;
+//    Retriever_fd = fdopen(fd,"r+");
     int len;
     memset(data,0,datalen);
-    printf("memset ok\n");
     if(fgets(data,datalen,Retriever_fd) == NULL)
     {
+        printf("没有读到数据\n");
         return 0;
     }
-    printf("%s\n",data);
-    printf("fgets ok\n");
     len = strlen(data);
 //    fclose(Retriever_fd);
     return len;
